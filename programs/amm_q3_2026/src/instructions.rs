@@ -1,9 +1,11 @@
-pub mod deposit;
-pub mod initialize;
+pub mod add_liquidity;
+pub mod init_pool;
+pub mod remove_liquidity;
 pub mod swap;
-pub mod withdraw;
+pub mod toggle_lock;
 
-pub use deposit::*;
-pub use initialize::*;
+pub use add_liquidity::*;
+pub use init_pool::*;
+pub use remove_liquidity::*;
 pub use swap::*;
-pub use withdraw::*;
+pub use toggle_lock::*;
