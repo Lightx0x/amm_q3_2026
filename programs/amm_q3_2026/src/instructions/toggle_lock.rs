@@ -14,8 +14,8 @@ pub struct ToggleLock<'info> {
 }
 
 impl<'info> ToggleLock<'info> {
-    pub fn toggle_lock(&mut self, locked: bool) -> Result<()> {
-        self.pool.locked = locked;
+    pub fn toggle_lock(&mut self) -> Result<()> {
+        self.pool.locked = !self.pool.locked;
         Ok(())
     }
 }

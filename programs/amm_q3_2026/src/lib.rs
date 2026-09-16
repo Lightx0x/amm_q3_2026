@@ -48,7 +48,7 @@ pub mod amm_q3_2026 {
         ctx.accounts.swap(is_a, amount_in, min_out)
     }
 
-    pub fn toggle_lock(ctx: Context<ToggleLock>, locked: bool) -> Result<()> {
-        ctx.accounts.toggle_lock(locked)
+    pub fn toggle_lock(ctx: Context<ToggleLock>) -> Result<()> {
+        ctx.accounts.toggle_lock()
     }
 }

@@ -66,21 +66,25 @@ impl<'info> Swap<'info> {
         require!(!self.pool.locked, AmmError::PoolLocked);
         require!(amount_in > 0, AmmError::ZeroAmount);
 
-        let p = match is_a {
-            true => LiquidityPair::X,
-            false => LiquidityPair::Y,
+        // Always hand the curve the input side as X: its Y path prices the trade
+        // without applying the fee, which would let every B -> A swap shrink k.
+        let (reserve_in, reserve_out) = match is_a {
+            true => (self.vault_a.amount, self.vault_b.amount),
+            false => (self.vault_b.amount, self.vault_a.amount),
         };
 
         let mut curve = ConstantProduct::init(
-            self.vault_a.amount,
-            self.vault_b.amount,
+            reserve_in,
+            reserve_out,
             self.mint_lp.supply,
             self.pool.lp_fee_bps + self.pool.protocol_fee_bps,
             Some(LP_DECIMALS),
         )
         .map_err(AmmError::from)?;
 
-        let swap_result = curve.swap(p, amount_in, min_out).map_err(AmmError::from)?;
+        let swap_result = curve
+            .swap(LiquidityPair::X, amount_in, min_out)
+            .map_err(AmmError::from)?;
         require!(swap_result.withdraw > 0, AmmError::InsufficientLiquidity);
 
         // Protocol share of the fee goes to the treasury; the rest stays in the vault for LPs.
