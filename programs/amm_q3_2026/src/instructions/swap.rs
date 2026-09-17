@@ -13,8 +13,8 @@ pub struct Swap<'info> {
     #[account(
         has_one = mint_a,
         has_one = mint_b,
-        seeds = [POOL_SEED, pool.seed.to_le_bytes().as_ref()],
-        bump = pool.pool_bump,
+        seeds = [SEED, pool.seed.to_le_bytes().as_ref()],
+        bump = pool.bump,
     )]
     pub pool: Account<'info, Pool>,
     #[account(
@@ -147,11 +147,7 @@ impl<'info> Swap<'info> {
                     to,
                     authority: self.pool.to_account_info(),
                 },
-                &[&[
-                    POOL_SEED,
-                    &self.pool.seed.to_le_bytes(),
-                    &[self.pool.pool_bump],
-                ]],
+                &[&[SEED, &self.pool.seed.to_le_bytes(), &[self.pool.bump]]],
             ),
             amount,
         )

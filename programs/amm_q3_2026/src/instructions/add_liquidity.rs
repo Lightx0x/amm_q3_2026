@@ -16,8 +16,8 @@ pub struct AddLiquidity<'info> {
     #[account(
         has_one = mint_a,
         has_one = mint_b,
-        seeds = [POOL_SEED, pool.seed.to_le_bytes().as_ref()],
-        bump = pool.pool_bump,
+        seeds = [SEED, pool.seed.to_le_bytes().as_ref()],
+        bump = pool.bump,
     )]
     pub pool: Account<'info, Pool>,
     #[account(
@@ -130,11 +130,8 @@ impl<'info> AddLiquidity<'info> {
             authority: self.pool.to_account_info(),
         };
 
-        let signer_seeds: &[&[&[u8]]] = &[&[
-            POOL_SEED,
-            &self.pool.seed.to_le_bytes(),
-            &[self.pool.pool_bump],
-        ]];
+        let signer_seeds: &[&[&[u8]]] =
+            &[&[SEED, &self.pool.seed.to_le_bytes(), &[self.pool.bump]]];
 
         let cpi_ctx = CpiContext::new_with_signer(cpi_program, cpi_accounts, signer_seeds);
         mint_to(cpi_ctx, lp_token_amount)

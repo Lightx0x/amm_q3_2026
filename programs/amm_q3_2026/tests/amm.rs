@@ -1,5 +1,5 @@
 use {
-    amm_q3_2026::{accounts, error::AmmError, instruction as ix, state::Pool, LP_SEED, POOL_SEED},
+    amm_q3_2026::{accounts, error::AmmError, instruction as ix, state::Pool, LP_SEED, SEED},
     anchor_lang::{system_program, AccountDeserialize, InstructionData, ToAccountMetas},
     anchor_spl::associated_token::{self, get_associated_token_address as ata},
     litesvm::{types::TransactionResult, LiteSVM},
@@ -82,7 +82,7 @@ impl Amm {
 
         let treasury = Pubkey::new_unique();
         let pool =
-            Pubkey::find_program_address(&[POOL_SEED, &SEED.to_le_bytes()], &amm_q3_2026::id()).0;
+            Pubkey::find_program_address(&[SEED, &SEED.to_le_bytes()], &amm_q3_2026::id()).0;
         let mint_lp = Pubkey::find_program_address(&[LP_SEED, pool.as_ref()], &amm_q3_2026::id()).0;
 
         Self {

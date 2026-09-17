@@ -11,6 +11,6 @@ pub struct Pool {
     pub lp_fee_bps: u16,       // Swap fee kept in the vaults for LPs (basis points)
     pub protocol_fee_bps: u16, // Swap fee forwarded to the treasury (basis points)
     pub locked: bool,          // If true, add_liquidity and swap are refused
-    pub pool_bump: u8,         // Bump seed for the pool account
+    pub bump: u8,              // Bump seed for the pool account
     pub lp_bump: u8,           // Bump seed for the LP mint
 }

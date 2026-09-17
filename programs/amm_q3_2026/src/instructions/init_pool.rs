@@ -18,7 +18,7 @@ pub struct InitPool<'info> {
     #[account(
         init,
         payer = admin,
-        seeds = [POOL_SEED, seed.to_le_bytes().as_ref()],
+        seeds = [SEED, seed.to_le_bytes().as_ref()],
         bump,
         space = Pool::DISCRIMINATOR.len() + Pool::INIT_SPACE,
     )]
@@ -87,7 +87,7 @@ impl<'info> InitPool<'info> {
             lp_fee_bps,
             protocol_fee_bps,
             locked: false,
-            pool_bump: bumps.pool,
+            bump: bumps.pool,
             lp_bump: bumps.mint_lp,
         });
 

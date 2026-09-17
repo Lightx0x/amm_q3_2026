@@ -1,4 +1,4 @@
-use crate::{constants::POOL_SEED, error::AmmError, state::Pool};
+use crate::{constants::SEED, error::AmmError, state::Pool};
 use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
@@ -7,8 +7,8 @@ pub struct ToggleLock<'info> {
     #[account(
         mut,
         has_one = admin @ AmmError::Unauthorized,
-        seeds = [POOL_SEED, pool.seed.to_le_bytes().as_ref()],
-        bump = pool.pool_bump,
+        seeds = [SEED, pool.seed.to_le_bytes().as_ref()],
+        bump = pool.bump,
     )]
     pub pool: Account<'info, Pool>,
 }
