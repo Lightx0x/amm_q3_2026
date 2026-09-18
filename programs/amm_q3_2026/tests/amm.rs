@@ -18,7 +18,7 @@ use {
     solana_transaction::versioned::VersionedTransaction,
 };
 
-const SEED: u64 = 7;
+const IX_SEED: u64 = 7;
 const LP_FEE_BPS: u16 = 25;
 const PROTOCOL_FEE_BPS: u16 = 5;
 
@@ -82,7 +82,7 @@ impl Amm {
 
         let treasury = Pubkey::new_unique();
         let pool =
-            Pubkey::find_program_address(&[SEED, &SEED.to_le_bytes()], &amm_q3_2026::id()).0;
+            Pubkey::find_program_address(&[SEED, &IX_SEED.to_le_bytes()], &amm_q3_2026::id()).0;
         let mint_lp = Pubkey::find_program_address(&[LP_SEED, pool.as_ref()], &amm_q3_2026::id()).0;
 
         Self {
@@ -176,7 +176,7 @@ impl Amm {
     fn init_pool(&self, lp_fee_bps: u16, protocol_fee_bps: u16) -> Instruction {
         self.build(
             ix::InitPool {
-                seed: SEED,
+                seed: IX_SEED,
                 lp_fee_bps,
                 protocol_fee_bps,
             },
